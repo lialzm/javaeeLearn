@@ -1,5 +1,6 @@
 package com.lialzm.controller;
 
+import com.lialzm.bean.Role;
 import com.lialzm.bean.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +74,22 @@ public class TestController {
     public String getUserByModel(@ModelAttribute("user") User user) {
         logger.info(user.toString());
         return "";
+    }
+
+    @ModelAttribute("user")
+    public User getUser(String userId) {
+        User user = new User();
+        user.setId("11");
+        Role role=new Role();
+        role.setId("123");
+        user.setRole(role);
+        return user;
+    }
+
+    @RequestMapping("/getUserModel")
+    @ResponseBody
+    public String getUserModel(@ModelAttribute User user) {
+        return user.toString();
     }
 
 

@@ -167,4 +167,12 @@ public class TestControllerTest {
         postForm("/getUserByModel.do",map);
     }
 
+    @Test
+    public void getUserModelTest() throws Exception {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("id", "1");
+        String result = postForm("/getUserModel.do", map);
+        System.out.println(result);
+    }
+
 }
