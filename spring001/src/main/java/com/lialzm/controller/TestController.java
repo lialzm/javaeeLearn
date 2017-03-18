@@ -1,18 +1,24 @@
 package com.lialzm.controller;
 
+import com.lialzm.bean.City;
 import com.lialzm.bean.Role;
 import com.lialzm.bean.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 
 /**
  * Created by A on 2017/3/17.
  */
 @Controller
+@SessionAttributes(value = {"city"})
 public class TestController {
 
 
@@ -73,23 +79,54 @@ public class TestController {
     @ResponseBody
     public String getUserByModel(@ModelAttribute("user") User user) {
         logger.info(user.toString());
-        return "";
+        return user.toString();
     }
 
     @ModelAttribute("user")
-    public User getUser(String userId) {
+    public User getUser() {
         User user = new User();
         user.setId("11");
-        Role role=new Role();
+        Role role = new Role();
         role.setId("123");
         user.setRole(role);
         return user;
     }
 
+
     @RequestMapping("/getUserModel")
     @ResponseBody
     public String getUserModel(@ModelAttribute User user) {
         return user.toString();
+    }
+
+
+    @RequestMapping("/setSession")
+    @ResponseBody
+    public String setSession(Model model,
+                             HttpSession session,
+                             HttpServletRequest request) {
+        City city = new City();
+        city.setCityName("shanghai");
+        model.addAttribute("city", city);
+        session.setAttribute("city", city);
+        System.out.println(request.getSession().getId());
+        return city.toString();
+    }
+
+    @RequestMapping("/getSession")
+    @ResponseBody
+    public String getSession(HttpSession session,
+                             HttpServletRequest request) {
+        System.out.println(request.getSession().getId());
+        System.out.println(session.getAttribute("city"));
+        return new City().toString();
+    }
+
+    @RequestMapping("/clearSession")
+    @ResponseBody
+    public String clearSession(@ModelAttribute City city, SessionStatus status) {
+        status.setComplete();
+        return "success";
     }
 
 

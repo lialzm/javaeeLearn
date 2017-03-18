@@ -160,11 +160,11 @@ public class TestControllerTest {
 
 
     @Test
-    public void getUserByModelTest() throws Exception{
-        Map<String,String> map=new HashMap<String, String>();
-        map.put("id","123");
-        map.put("role.id","444");
-        postForm("/getUserByModel.do",map);
+    public void getUserByModelTest() throws Exception {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("id", "123");
+        map.put("role.id", "444");
+        postForm("/getUserByModel.do", map);
     }
 
     @Test
@@ -173,6 +173,33 @@ public class TestControllerTest {
         map.put("id", "1");
         String result = postForm("/getUserModel.do", map);
         System.out.println(result);
+    }
+
+    @Test
+    public void clearSessionTest() throws Exception {
+        Map<String, String> map = new HashMap<String, String>();
+        String result = postForm("/clearSession.do", map);
+        System.out.println(result);
+    }
+
+    public void setSessionTest() throws Exception {
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get("/setSession.do");
+        mockHttpServletRequestBuilder.cookie(new Cookie("JSESSIONID", "AAAAAA"));
+        ResultActions resultActions = requestForm(mockHttpServletRequestBuilder, new HashMap<String, String>());
+        String result = getResult(resultActions);
+    }
+
+    @Test
+    public void getSessionTest() throws Exception {
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get("/getSession.do");
+        mockHttpServletRequestBuilder.cookie(new Cookie("JSESSIONID", "AAAAAA"));
+        String result = getResult(requestForm(mockHttpServletRequestBuilder, new HashMap<String, String>()));
+    }
+
+    @Test
+    public void sessionTest() throws Exception {
+        setSessionTest();
+        getSessionTest();
     }
 
 }
