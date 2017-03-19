@@ -6,6 +6,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -16,8 +19,12 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.HttpSessionRequiredException;
 
 import javax.servlet.http.Cookie;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -60,6 +67,30 @@ public class TestControllerTest {
         }
         ResultActions ra = this.mockMvc
                 .perform(mockHttpServletRequestBuilder)
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+        return ra;
+    }
+
+    private ResultActions requestJson(MockHttpServletRequestBuilder mockHttpServletRequestBuilder, String content) throws Exception {
+        mockHttpServletRequestBuilder
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .characterEncoding("UTF-8").content(content);
+        ResultActions ra = this.mockMvc
+                .perform(mockHttpServletRequestBuilder)
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+        return ra;
+    }
+
+    private ResultActions requestFile(MockHttpServletRequestBuilder mockHttpServletRequestBuilder, byte[] bytes) throws Exception {
+        mockHttpServletRequestBuilder
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .characterEncoding("UTF-8");
+        ResultActions ra = this.mockMvc
+                .perform(mockHttpServletRequestBuilder)
+                .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
         return ra;
     }
@@ -70,6 +101,15 @@ public class TestControllerTest {
         return result;
     }
 
+    private String postFile(String url, byte[] bytes) throws Exception {
+        String json = "{\n" +
+                "\t\"id\":\"123\"\n" +
+                "}";
+        MockHttpServletRequestBuilder fileRequestBuilder =
+                MockMvcRequestBuilders.fileUpload(url).file("image",bytes);
+        return getResult(requestFile(fileRequestBuilder, bytes));
+    }
+
     private String postForm(String url) throws Exception {
         return postForm(url, new HashMap<String, String>());
     }
@@ -77,6 +117,11 @@ public class TestControllerTest {
     private String postForm(String url, Map<String, String> params) throws Exception {
         MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.post(url);
         return getResult(requestForm(mockHttpServletRequestBuilder, params));
+    }
+
+    private String postJson(String url, String content) throws Exception {
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.post(url);
+        return getResult(requestJson(mockHttpServletRequestBuilder, content));
     }
 
     @Test
@@ -177,14 +222,19 @@ public class TestControllerTest {
 
     @Test
     public void clearSessionTest() throws Exception {
-        Map<String, String> map = new HashMap<String, String>();
-        String result = postForm("/clearSession.do", map);
-        System.out.println(result);
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get("/clearSession.do");
+        mockHttpServletRequestBuilder.session(session);
+        ResultActions resultActions = requestForm(mockHttpServletRequestBuilder, new HashMap<String, String>());
+        String result = getResult(resultActions);
     }
 
+
+    MockHttpSession session = new MockHttpSession(new MockServletContext(), "1");
+
+    @Test
     public void setSessionTest() throws Exception {
         MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get("/setSession.do");
-        mockHttpServletRequestBuilder.cookie(new Cookie("JSESSIONID", "AAAAAA"));
+        mockHttpServletRequestBuilder.session(session);
         ResultActions resultActions = requestForm(mockHttpServletRequestBuilder, new HashMap<String, String>());
         String result = getResult(resultActions);
     }
@@ -192,14 +242,34 @@ public class TestControllerTest {
     @Test
     public void getSessionTest() throws Exception {
         MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get("/getSession.do");
-        mockHttpServletRequestBuilder.cookie(new Cookie("JSESSIONID", "AAAAAA"));
+        mockHttpServletRequestBuilder.session(session);
         String result = getResult(requestForm(mockHttpServletRequestBuilder, new HashMap<String, String>()));
     }
 
-    @Test
+    @Test(expected = HttpSessionRequiredException.class)
     public void sessionTest() throws Exception {
         setSessionTest();
         getSessionTest();
+        clearSessionTest();
+        getSessionTest();
+    }
+
+    @Test
+    public void getUserByJsonTest() throws Exception {
+        String json = "{\n" +
+                "\t\"id\":\"123\"\n" +
+                "}";
+        postJson("/getUserByJson.do", json);
+    }
+
+    @Test
+    public void getFileTest() throws Exception {
+        String path = new File("").getAbsolutePath();
+        path = path + File.separator + "src" +
+                File.separator + "test" + File.separator + "resources" + File.separator + "text.txt";
+        InputStream inputStream = new FileInputStream(path);
+        MockMultipartFile file = new MockMultipartFile("file", inputStream);
+        postFile("/getFile.do", file.getBytes());
     }
 
 }

@@ -6,11 +6,10 @@ import com.lialzm.bean.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 
@@ -102,32 +101,38 @@ public class TestController {
 
     @RequestMapping("/setSession")
     @ResponseBody
-    public String setSession(Model model,
-                             HttpSession session,
-                             HttpServletRequest request) {
+    public String setSession(
+            HttpSession session) {
         City city = new City();
         city.setCityName("shanghai");
-        model.addAttribute("city", city);
         session.setAttribute("city", city);
-        System.out.println(request.getSession().getId());
         return city.toString();
     }
 
     @RequestMapping("/getSession")
     @ResponseBody
-    public String getSession(HttpSession session,
-                             HttpServletRequest request) {
-        System.out.println(request.getSession().getId());
-        System.out.println(session.getAttribute("city"));
-        return new City().toString();
+    public String getSession(@ModelAttribute City city) {
+        return city.toString();
     }
 
     @RequestMapping("/clearSession")
     @ResponseBody
-    public String clearSession(@ModelAttribute City city, SessionStatus status) {
+    public String clearSession(SessionStatus status) {
         status.setComplete();
         return "success";
     }
 
+    @RequestMapping("/getUserByJson")
+    @ResponseBody
+    public String getUserByJson(@RequestBody User user){
+        return user.toString();
+    }
+
+    @RequestMapping("/getFile")
+    @ResponseBody
+    public String getFile(@RequestPart("image") MultipartFile file){
+        System.out.println(file.getName()+","+file.getSize());
+        return "success";
+    }
 
 }
