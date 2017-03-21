@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">
+            org.hibernate.dialect.MySQLDialect
+        </property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <!-- Assume test is the database name -->
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/jpa</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">123456</property>
+
+        <property name="hibernate.show_sql">
+            true
+        </property>
+        <property name="hibernate.format_sql">
+            true
+        </property>
+        <property name="hbm2ddl.auto">update</property>
+        <!--事务管理类型-->
+        <property name="hibernate.transaction.factory_class">
+            org.hibernate.transaction.JDBCTransactionFactory
+        </property>
+        <!--开启二级缓存-->
+        <property name="hibernate.cache.region_prefix">
+            net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory
+        </property>
+        <property name="cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.use_query_cache">true</property>
+        <!-- List of XML mapping files -->
+        <mapping resource="bean/Department.hbm.xml"/>
+        <mapping resource="bean/Employee.hbm.xml"/>
+        <mapping resource="bean/CustomerEntity.hbm.xml"/>
+        <mapping resource="bean/TestUuidEntity.hbm.xml"/>
+        <mapping resource="bean/map.hbm.xml"/>
+        <mapping resource="bean/EmployeeCount.hbm.xml"/>
+        <mapping resource="bean/CardEntity.hbm.xml"/>
+        <mapping resource="bean/AddressEntity.hbm.xml"/>
+        <mapping resource="bean/PermissionEntity.hbm.xml"/>
+        <mapping resource="bean/RoleEntity.hbm.xml"/>
+
+    </session-factory>
+</hibernate-configuration>

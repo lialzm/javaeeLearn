@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping SYSTEM
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-lazy="true">
+    <class name="bean.Employee" table="employee">
+        <meta attribute="class-description">
+            This class contains the employee detail.
+        </meta>
+        <id name="id" type="int" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="firstName" column="first_name" type="string"/>
+        <property name="lastName" column="last_name" type="string"/>
+        <property name="salary" column="salary" type="int"/>
+        <property name="departmentId" column="department_id" type="int" insert="false" update="false"/>
+        <property name="card_id"></property>
+        <property name="phone" column="phone" type="bean.TestUseType"/>
+
+        <many-to-one name="department" class="bean.Department" column="department_id"></many-to-one>
+
+        <!--声明一对一关系-->
+        <one-to-one name="cardEntity" cascade="all" outer-join="true" class="bean.CardEntity"></one-to-one>
+        <set table="address" name="addressEntities" cascade="all" inverse="true">
+            <key column="emp_id"></key>
+            <one-to-many class="bean.AddressEntity"></one-to-many>
+        </set>
+
+
+    </class>
+</hibernate-mapping>

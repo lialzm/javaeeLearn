@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping SYSTEM
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="bean.TestUuidEntity" table="test_uuid" schema="jpa">
+        <id name="id" column="id">
+            <generator class="uuid"></generator>
+        </id>
+        <property name="name" column="name"/>
+    </class>
+</hibernate-mapping>

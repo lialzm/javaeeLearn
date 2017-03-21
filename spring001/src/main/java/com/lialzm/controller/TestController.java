@@ -42,6 +42,14 @@ public class TestController {
         return name;
     }
 
+    @RequestMapping(value = "/requestParamValue")
+    @ResponseBody
+    public String requestParamValue(@RequestParam(value = "name") String name1) {
+        logger.info("name=" + name1);
+        return name1;
+    }
+
+
     @RequestMapping(value = "/names")
     @ResponseBody
     public String names(@RequestParam String[] name) {
@@ -92,9 +100,9 @@ public class TestController {
     }
 
 
-    @RequestMapping("/getUserModel")
+    @RequestMapping("/getRoleModel")
     @ResponseBody
-    public String getUserModel(@ModelAttribute User user) {
+    public String getRoleModel(@ModelAttribute Role user) {
         return user.toString();
     }
 

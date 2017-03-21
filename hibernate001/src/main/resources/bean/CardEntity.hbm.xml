@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping SYSTEM
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="bean.CardEntity" table="t_card" schema="jpa">
+
+        <id name="id" column="id">
+            <generator class="foreign">
+                <param name="property">employee</param>
+            </generator>
+        </id>
+        <one-to-one name="employee" constrained="true" class="bean.Employee"></one-to-one>
+        <property name="cardNo" column="card_no"/>
+
+    </class>
+</hibernate-mapping>

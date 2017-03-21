@@ -149,6 +149,14 @@ public class TestControllerTest {
     }
 
     @Test
+    public void requestParamValueTest() throws Exception {
+        String name = "li lee";
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("name", name);
+        String result = postForm("/requestParamValue.do", map);
+    }
+
+    @Test
     public void form2() throws Exception {
         String name = "li lee";
         Map<String, String> map = new HashMap<String, String>();
@@ -213,10 +221,10 @@ public class TestControllerTest {
     }
 
     @Test
-    public void getUserModelTest() throws Exception {
+    public void getRoleModelTest() throws Exception {
         Map<String, String> map = new HashMap<String, String>();
         map.put("id", "1");
-        String result = postForm("/getUserModel.do", map);
+        String result = postForm("/getRoleModel.do", map);
         System.out.println(result);
     }
 
