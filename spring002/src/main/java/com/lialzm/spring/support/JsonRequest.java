@@ -1,5 +1,7 @@
 package com.lialzm.spring.support;
 
+import org.springframework.web.bind.annotation.ValueConstants;
+
 import java.lang.annotation.*;
 
 /**
@@ -13,5 +15,7 @@ public @interface JsonRequest {
     String value() default "";
 
     boolean required() default true;
+
+    String defaultValue() default ValueConstants.DEFAULT_NONE;
 
 }
