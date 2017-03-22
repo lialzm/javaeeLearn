@@ -1,9 +1,14 @@
 package com.lialzm.spring.support;
 
 import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.PathNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
-import org.springframework.core.ResolvableType;
-import org.springframework.http.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpInputMessage;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.util.StreamUtils;
@@ -18,23 +23,21 @@ import java.io.InputStream;
 import java.io.PushbackInputStream;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
-import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by A on 2017/3/21.
  */
 public class JsonRequestMethodArgumentResolver extends AbstractMessageConverterMethodArgumentResolver {
 
-    private static final Object NO_VALUE = new Object();
 
-    private static final Set<HttpMethod> SUPPORTED_METHODS =
-            EnumSet.of(HttpMethod.POST, HttpMethod.PUT, HttpMethod.PATCH);
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
+    //存储json
+    private static ThreadLocal<String> threadLocal = new ThreadLocal<String>();
 
 
     public JsonRequestMethodArgumentResolver(List<HttpMessageConverter<?>> converters) {
-
         super(converters);
     }
 
@@ -42,47 +45,50 @@ public class JsonRequestMethodArgumentResolver extends AbstractMessageConverterM
         super(converters, requestResponseBodyAdvice);
     }
 
-
+    @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.hasParameterAnnotation(JsonRequest.class);
     }
 
+    @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         Object arg = readWithMessageConverters(webRequest, parameter, parameter.getGenericParameterType());
+        //校验是否必填
+        if (arg == null) {
+            if (checkRequired(parameter)) {
+                throw new PathNotFoundException("Required request body is missing: " +
+                        parameter.getParameterName());
+            }
+        }
         return arg;
+    }
+
+    protected boolean checkRequired(MethodParameter methodParam) {
+        return methodParam.getParameterAnnotation(JsonRequest.class).required();
     }
 
     @Override
     protected <T> Object readWithMessageConverters(HttpInputMessage inputMessage, MethodParameter param, Type targetType) throws IOException, HttpMediaTypeNotSupportedException, HttpMessageNotReadableException {
-
-        MediaType contentType;
-        boolean noContentType = false;
-        try {
-            contentType = inputMessage.getHeaders().getContentType();
-        } catch (InvalidMediaTypeException ex) {
-            throw new HttpMediaTypeNotSupportedException(ex.getMessage());
+        String currentThreadName = Thread.currentThread().getName();
+        long id = Thread.currentThread().getId();
+        if (logger.isDebugEnabled()) {
+            System.out.println(currentThreadName + id + " is running!");
         }
-        if (contentType == null) {
-            noContentType = true;
-            contentType = MediaType.APPLICATION_OCTET_STREAM;
-        }
-
-        Class<?> contextClass = (param != null ? param.getContainingClass() : null);
-        Class<T> targetClass = (targetType instanceof Class<?> ? (Class<T>) targetType : null);
-        if (targetClass == null) {
-            ResolvableType resolvableType = (param != null ?
-                    ResolvableType.forMethodParameter(param) : ResolvableType.forType(targetType));
-            targetClass = (Class<T>) resolvableType.resolve();
-        }
-        HttpMethod httpMethod = ((HttpRequest) inputMessage).getMethod();
-        Object body = NO_VALUE;
         try {
             inputMessage = new EmptyBodyCheckingHttpInputMessage(inputMessage);
-            String json = StreamUtils.copyToString(inputMessage.getBody(), Charset.defaultCharset());
+            InputStream inputStream = inputMessage.getBody();
+            String json;
+            if (inputStream == null) {
+                json = threadLocal.get();
+            } else {
+                json = StreamUtils.copyToString(inputStream, Charset.defaultCharset());
+                threadLocal.set(json);
+            }
             JsonRequest jsonRequest = param.getParameterAnnotation(JsonRequest.class);
+            //类型转换
             return JsonPath.read(json, jsonRequest.value());
-        } catch (IOException ex) {
-            throw new HttpMessageNotReadableException("Could not read document: " + ex.getMessage(), ex);
+        } catch (PathNotFoundException ex) {
+            return null;
         }
     }
 

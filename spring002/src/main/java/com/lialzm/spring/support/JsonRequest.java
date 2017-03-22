@@ -12,4 +12,6 @@ public @interface JsonRequest {
 
     String value() default "";
 
+    boolean required() default true;
+
 }

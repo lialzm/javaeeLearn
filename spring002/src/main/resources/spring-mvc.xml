@@ -11,7 +11,7 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
             <bean class="com.lialzm.spring.support.JsonRequestMethodArgumentResolver">
                 <constructor-arg>
                     <list>
-                        <!--只是用来防止报错-->
+                        <!--只是用来防止报错,目前并没有使用到消息转换器-->
                         <ref bean="byteArrayHttpMessageConverter"/>
                     </list>
                 </constructor-arg>
