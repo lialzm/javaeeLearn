@@ -154,8 +154,12 @@ public class JsonRequestMethodArgumentResolver extends AbstractMessageConverterM
                 threadLocal.set(json);
             }
             JsonRequest jsonRequest = param.getParameterAnnotation(JsonRequest.class);
+            String value=jsonRequest.value();
+            if (value==null||value.isEmpty()) {
+                value = "$." + param.getParameterName();
+            }
             //类型转换
-            return JsonPath.read(json, jsonRequest.value());
+            return JsonPath.read(json, value);
         } catch (PathNotFoundException ex) {
             return null;
         }

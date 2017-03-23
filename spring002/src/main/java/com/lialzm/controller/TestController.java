@@ -38,5 +38,13 @@ public class TestController {
         return id + "," + name;
     }
 
+    @RequestMapping("/getUserByJson3")
+    @ResponseBody
+    public String getUserByJson3(@JsonRequest Long id, @JsonRequest String name) {
+        return id + "," + name;
+    }
+
+
+
 
 }
