@@ -31,7 +31,6 @@ public class TestController {
 
 
     @InitBinder
-//此处的参数也可以是ServletRequestDataBinder类型
     public void initBinder(WebDataBinder binder) throws Exception {
         //注册自定义的属性编辑器
         //1、日期
@@ -39,7 +38,6 @@ public class TestController {
         CustomDateEditor dateEditor = new CustomDateEditor(df, true);
         //表示如果命令对象有Date类型的属性，将使用该属性编辑器进行类型转换
         binder.registerCustomEditor(Date.class, dateEditor);
-        //自定义的电话号码编辑器(和【4.16.1、数据类型转换】一样)
     }
 
     @RequestMapping("/testDate")
