@@ -4,14 +4,12 @@ import com.lialzm.bean.User;
 import org.hibernate.validator.constraints.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Arrays;
@@ -19,8 +17,9 @@ import java.util.Arrays;
 /**
  * Created by A on 2017/3/22.
  */
-@Validated
+
 @RestController
+@Validated
 public class TestController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -42,8 +41,8 @@ public class TestController {
 
 
     @RequestMapping("/test2")
-    @ResponseBody
-    public String test2(@Email String id) {
+    @ResponseStatus(HttpStatus.OK)
+    public String test2(@Email @RequestParam("id") String id) {
         logger.info(id);
         return "";
     }
