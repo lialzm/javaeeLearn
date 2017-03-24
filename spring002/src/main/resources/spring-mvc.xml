@@ -34,5 +34,6 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
           class="com.lialzm.spring.support.MyMappingJackson2HttpMessageConverter"></bean>
     <bean id="byteArrayHttpMessageConverter"
           class="org.springframework.http.converter.ByteArrayHttpMessageConverter"></bean>
+    <bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>
 
 </beans>
