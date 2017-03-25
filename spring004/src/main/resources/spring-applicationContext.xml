@@ -9,6 +9,4 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 ">
     <context:component-scan base-package="com.lialzm.**.handler"/>
 
-    <context:property-placeholder  location="classpath:messages.properties"
-                                  ignore-unresolvable="true" />
 </beans>

@@ -1,24 +1,27 @@
 package com.lialzm.controller;
 
 import com.lialzm.bean.User;
+import com.lialzm.constraint.Group1;
+import com.lialzm.constraint.Group2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by A on 2017/3/22.
  */
 
 @RestController
-//@Validated
 public class TestController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -38,13 +41,21 @@ public class TestController {
         return "";
     }
 
+
     @RequestMapping("/testGroup")
     @ResponseBody
-    public String testGroup(){
-
-        return "";
+    public User testGroup(@ModelAttribute @Validated(value = {Group1.class, Group2.class}) User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> list = bindingResult.getAllErrors();
+            for (ObjectError error : list
+                    ) {
+                logger.info(error.getDefaultMessage());
+            }
+            logger.info("error");
+            return null;
+        }
+        return user;
     }
-
 
 
 }
