@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import javax.validation.groups.Default;
 import java.util.List;
 
 /**
@@ -44,7 +45,7 @@ public class TestController {
 
     @RequestMapping("/testGroup")
     @ResponseBody
-    public User testGroup(@ModelAttribute @Validated(value = {Group1.class, Group2.class}) User user, BindingResult bindingResult) {
+    public User testGroup(@ModelAttribute @Validated(value = {Default.class,Group1.class, Group2.class}) User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             List<ObjectError> list = bindingResult.getAllErrors();
             for (ObjectError error : list
