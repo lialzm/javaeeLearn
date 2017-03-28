@@ -24,7 +24,7 @@ public class TestController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     public TestController() {
-        logger.info("TestControllerTest");
+        logger.info("TestController");
     }
 
 

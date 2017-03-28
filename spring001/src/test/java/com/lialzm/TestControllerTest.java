@@ -1,5 +1,6 @@
-package com.lialzm.controller;
+package com.lialzm;
 
+import com.lialzm.controller.TestController;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
