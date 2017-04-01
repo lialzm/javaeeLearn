@@ -2,8 +2,14 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/hibernate001/hibernate001.iml" filepath="$PROJECT_DIR$/hibernate001/hibernate001.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/javaeeLearn.iml" filepath="$PROJECT_DIR$/.idea/javaeeLearn.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring001/spring001.iml" filepath="$PROJECT_DIR$/spring001/spring001.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring002/spring002.iml" filepath="$PROJECT_DIR$/spring002/spring002.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring003/spring003.iml" filepath="$PROJECT_DIR$/spring003/spring003.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring004/spring004.iml" filepath="$PROJECT_DIR$/spring004/spring004.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring005/spring005.iml" filepath="$PROJECT_DIR$/spring005/spring005.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot001/springboot001.iml" filepath="$PROJECT_DIR$/springboot001/springboot001.iml" />
     </modules>
   </component>
 </project>

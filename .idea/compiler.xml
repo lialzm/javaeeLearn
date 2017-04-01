@@ -6,11 +6,23 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="hibernate001" />
         <module name="spring001" />
+        <module name="spring002" />
+        <module name="spring003" />
+        <module name="spring004" />
+        <module name="spring005" />
+        <module name="springboot001" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="spring001" target="1.5" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="hibernate001" target="1.8" />
+      <module name="spring001" target="1.8" />
+      <module name="spring002" target="1.8" />
+      <module name="spring003" target="1.8" />
+      <module name="spring004" target="1.8" />
+      <module name="spring005" target="1.8" />
+      <module name="springboot001" target="1.6" />
     </bytecodeTargetLevel>
   </component>
 </project>
