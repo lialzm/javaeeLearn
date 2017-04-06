@@ -36,6 +36,8 @@ public class TestController {
             if (objectError instanceof FieldError) {
                 FieldError fieldError = (FieldError) objectError;
                 logger.info(fieldError.getField() + fieldError.getDefaultMessage());
+            }else {
+               logger.info(objectError.getDefaultMessage());
             }
         }
         logger.info(user.toString());

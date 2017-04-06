@@ -1,5 +1,6 @@
 package com.lialzm.bean;
 
+import com.lialzm.annotation.CheckUser;
 import com.lialzm.annotation.Status;
 import com.lialzm.constraint.Group1;
 import com.lialzm.constraint.Group2;
@@ -14,6 +15,7 @@ import java.io.Serializable;
 /**
  * Created by A on 2017/3/17.
  */
+@CheckUser
 @GroupSequence({Group1.class,Group2.class,User.class})
 public class User implements Serializable {
 
