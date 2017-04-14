@@ -13,7 +13,7 @@ import java.lang.annotation.*;
 @Min(8000)
 @Constraint(validatedBy = {})
 @Documented
-@Target({ElementType.ANNOTATION_TYPE, ElementType.METHOD, ElementType.FIELD})
+@Target({ElementType.ANNOTATION_TYPE, ElementType.METHOD, ElementType.FIELD,ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Price {
     String message() default "错误的价格";

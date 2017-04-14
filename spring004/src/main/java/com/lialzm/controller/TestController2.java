@@ -1,5 +1,6 @@
 package com.lialzm.controller;
 
+import com.lialzm.annotation.Price;
 import org.hibernate.validator.constraints.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,16 @@ public class TestController2 {
     public String test3(@Max(100) @Min(1) @RequestParam  Integer age) {
         return age.toString();
     }
+
+
+    @RequestMapping("/test4")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public String test4(@Price @RequestParam  String price) {
+        return price.toString();
+    }
+
+
 
 
 
