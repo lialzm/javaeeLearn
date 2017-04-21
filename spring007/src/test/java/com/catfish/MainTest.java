@@ -9,6 +9,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Created by apple on 17/4/16.
  */
@@ -23,7 +27,7 @@ public class MainTest {
     Person person;
 
     @Test
-    public void testSet() {
+    public void testSetter() {
         Assert.assertEquals("小美", person.getName());
     }
 
@@ -35,6 +39,32 @@ public class MainTest {
     @Test
     public void testConstructor2() {
         Assert.assertEquals("0", String.valueOf(person.getSex()));
+    }
+
+    @Test
+    public void testList() {
+        List<Book> list = person.getMathBooks();
+        System.out.println(list);
+    }
+
+    @Test
+    public void testSet() {
+        Set<Book> set = person.getChineseBooks();
+        System.out.println(set);
+    }
+
+    @Test
+    public void testMap() {
+        System.out.println(person.getMap());
+    }
+    @Test
+    public void testArray() {
+        System.out.println(Arrays.asList(person.getStrings()));
+    }
+
+    @Test
+    public void testBean() {
+        System.out.println(Arrays.asList(person.getBook()));
     }
 
 }
