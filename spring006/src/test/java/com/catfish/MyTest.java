@@ -10,7 +10,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -25,7 +24,7 @@ public class MyTest {
     @Autowired
     TestDao testDao;
 
-    @Transactional
+//    @Transactional
     @Test
     public void testInsert() {
         testInsert2();
@@ -33,7 +32,7 @@ public class MyTest {
         Assert.assertNotEquals(0, count);
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public void testInsert2() {
         TestBean testBean = new TestBean();
         testBean.setId(1);

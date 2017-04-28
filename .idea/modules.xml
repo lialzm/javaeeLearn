@@ -9,6 +9,9 @@
       <module fileurl="file://$PROJECT_DIR$/spring003/spring003.iml" filepath="$PROJECT_DIR$/spring003/spring003.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring004/spring004.iml" filepath="$PROJECT_DIR$/spring004/spring004.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring005/spring005.iml" filepath="$PROJECT_DIR$/spring005/spring005.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring006/spring006.iml" filepath="$PROJECT_DIR$/spring006/spring006.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring007/spring007.iml" filepath="$PROJECT_DIR$/spring007/spring007.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring008/spring008.iml" filepath="$PROJECT_DIR$/spring008/spring008.iml" />
       <module fileurl="file://$PROJECT_DIR$/springboot001/springboot001.iml" filepath="$PROJECT_DIR$/springboot001/springboot001.iml" />
     </modules>
   </component>
