@@ -29,6 +29,10 @@
           <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.8.9" />
           <element id="library" level="project" name="Maven: org.springframework:spring-aspects:4.3.2.RELEASE" />
           <element id="library" level="project" name="Maven: org.hibernate:hibernate-validator-annotation-processor:4.2.0.Final" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.8.0" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.8.5" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.8.5" />
+          <element id="library" level="project" name="Maven: javax.el:el-api:2.2" />
         </element>
       </element>
     </root>
